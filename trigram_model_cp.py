@@ -33,10 +33,10 @@ def get_ngrams(sequence, n):
     """
     COMPLETE THIS FUNCTION (PART 1)
     Given a sequence, this function should return a list of n-grams, where each n-gram is a Python tuple.
-    This should work for arbitrary values of n >= 1
+    This should work for arbitrary values of n >= 1 
     """
-    padded = ["START"] * (n - 1) + list(sequence) + ["STOP"]
-    return [tuple(padded[i:i+n]) for i in range(len(padded) - n + 1)]
+
+    return []
 
 
 class TrigramModel(object):
