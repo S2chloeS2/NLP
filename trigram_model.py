@@ -62,11 +62,19 @@ class TrigramModel(object):
         and trigram counts. 
         """
    
-        self.unigramcounts = {} # might want to use defaultdict or Counter instead
-        self.bigramcounts = {} 
-        self.trigramcounts = {} 
+        self.unigramcounts = defaultdict(int)
+        self.bigramcounts = defaultdict(int)
+        self.trigramcounts = defaultdict(int)
+        self.total_words = 0
 
-        ##Your code here
+        for sentence in corpus:
+            self.total_words += len(sentence) + 1  # +1 for STOP token
+            for unigram in get_ngrams(sentence, 1):
+                self.unigramcounts[unigram] += 1
+            for bigram in get_ngrams(sentence, 2):
+                self.bigramcounts[bigram] += 1
+            for trigram in get_ngrams(sentence, 3):
+                self.trigramcounts[trigram] += 1
 
         return
 
