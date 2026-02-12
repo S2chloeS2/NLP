@@ -83,25 +83,29 @@ class TrigramModel(object):
         COMPLETE THIS METHOD (PART 3)
         Returns the raw (unsmoothed) trigram probability
         """
-        return 0.0
+        bigram_context = trigram[:2]
+        bigram_count = self.bigramcounts[bigram_context]
+        if bigram_count == 0:
+            return 0.0
+        return self.trigramcounts[trigram] / bigram_count
 
     def raw_bigram_probability(self, bigram):
-        """ a
+        """
         COMPLETE THIS METHOD (PART 3)
         Returns the raw (unsmoothed) bigram probability
         """
-        return 0.0
-    
+        unigram_context = (bigram[0],)
+        unigram_count = self.unigramcounts[unigram_context]
+        if unigram_count == 0:
+            return 0.0
+        return self.bigramcounts[bigram] / unigram_count
+
     def raw_unigram_probability(self, unigram):
         """
         COMPLETE THIS METHOD (PART 3)
         Returns the raw (unsmoothed) unigram probability.
         """
-
-        #hint: recomputing the denominator every time the method is called
-        # can be slow! You might want to compute the total number of words once, 
-        # store in the TrigramModel instance, and then re-use it.  
-        return 0.0
+        return self.unigramcounts[unigram] / self.total_words
 
     def generate_sentence(self,t=20): 
         """
@@ -119,21 +123,33 @@ class TrigramModel(object):
         lambda1 = 1/3.0
         lambda2 = 1/3.0
         lambda3 = 1/3.0
-        return 0.0
+        return lambda1 * self.raw_trigram_probability(trigram) + \
+               lambda2 * self.raw_bigram_probability(trigram[1:]) + \
+               lambda3 * self.raw_unigram_probability((trigram[2],))
         
     def sentence_logprob(self, sentence):
         """
         COMPLETE THIS METHOD (PART 5)
         Returns the log probability of an entire sequence.
         """
-        return float("-inf")
+        trigrams = get_ngrams(sentence, 3)
+        logprob = 0.0
+        for trigram in trigrams:
+            logprob += math.log2(self.smoothed_trigram_probability(trigram))
+        return logprob
 
     def perplexity(self, corpus):
         """
         COMPLETE THIS METHOD (PART 6) 
         Returns the log probability of an entire sequence.
         """
-        return float("inf") 
+        total_logprob = 0.0
+        total_words = 0
+        for sentence in corpus:
+            total_logprob += self.sentence_logprob(sentence)
+            total_words += len(sentence) + 1  # +1 for STOP
+        l = total_logprob / total_words
+        return 2 ** (-l)
 
 
 def essay_scoring_experiment(training_file1, training_file2, testdir1, testdir2):
