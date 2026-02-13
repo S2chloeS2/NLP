@@ -163,12 +163,18 @@ def essay_scoring_experiment(training_file1, training_file2, testdir1, testdir2)
         for f in os.listdir(testdir1):
             pp1 = model1.perplexity(corpus_reader(os.path.join(testdir1, f), model1.lexicon))
             pp2 = model2.perplexity(corpus_reader(os.path.join(testdir1, f), model2.lexicon))
-            # .. 
-    
+            total += 1
+            if pp1 <= pp2:
+                correct += 1
+
         for f in os.listdir(testdir2):
-            # .. 
-        
-        return 0.0
+            pp1 = model1.perplexity(corpus_reader(os.path.join(testdir2, f), model1.lexicon))
+            pp2 = model2.perplexity(corpus_reader(os.path.join(testdir2, f), model2.lexicon))
+            total += 1
+            if pp2 <= pp1:
+                correct += 1
+
+        return correct / total
 
 if __name__ == "__main__":
 
