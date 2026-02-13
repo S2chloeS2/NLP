@@ -1,0 +1,6 @@
+jooyeonlee@Chloes-MacBook-Pro-6 HW1 % python3 -c " from trigram_model import * model = TrigramModel('hw1_data/brown_train.txt') dev = corpus_reader('hw1_data/brown_test.txt', model.lexicon) print('Test Perplexity:', model.perplexity(dev)) train = corpus_reader('hw1_data/brown_train.txt', model.lexicon) print('Train Perplexity:', model.perplexity(train)) "
+
+
+
+Test Perplexity: 251.4454280944355
+Train Perplexity: 17.438180496322335
