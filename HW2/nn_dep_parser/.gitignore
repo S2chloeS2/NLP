@@ -1,0 +1,15 @@
+# numpy matrices (too large, not required for submission)
+data/*.npy
+
+# CoNLL data files (not required for submission)
+data/*.conll
+
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
